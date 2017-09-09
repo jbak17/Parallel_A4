@@ -16,78 +16,78 @@
 #define FILENAME "my_mandelbrot_fractal3.bmp"
 #define BLOCKSIZE 16
 
- /** 
-   * Computes the color gradiant
-   * color: the output vector 
-   * x: the gradiant (beetween 0 and 360)
-   * min and max: variation of the RGB channels (Move3D 0 -> 1)
-   * Check wiki for more details on the colour science: en.wikipedia.org/wiki/HSL_and_HSV 
-   */
+/**
+  * Computes the color gradiant
+  * color: the output vector
+  * x: the gradiant (beetween 0 and 360)
+  * min and max: variation of the RGB channels (Move3D 0 -> 1)
+  * Check wiki for more details on the colour science: en.wikipedia.org/wiki/HSL_and_HSV
+  */
 void GroundColorMix(double* color, double x, double min, double max)
 {
-  /*
-   * Red = 0
-   * Green = 1
-   * Blue = 2
-   */
-    double posSlope = (max-min)/60;
-    double negSlope = (min-max)/60;
+	/*
+	 * Red = 0
+	 * Green = 1
+	 * Blue = 2
+	 */
+	double posSlope = (max-min)/60;
+	double negSlope = (min-max)/60;
 
-    if( x < 60 )
-    {
-        color[0] = max;
-        color[1] = posSlope*x+min;
-        color[2] = min;
-        return;
-    }
-    else if ( x < 120 )
-    {
-        color[0] = negSlope*x+2.0*max+min;
-        color[1] = max;
-        color[2] = min;
-        return;
-    }
-    else if ( x < 180  )
-    {
-        color[0] = min;
-        color[1] = max;
-        color[2] = posSlope*x-2.0*max+min;
-        return;
-    }
-    else if ( x < 240  )
-    {
-        color[0] = min;
-        color[1] = negSlope*x+4.0*max+min;
-        color[2] = max;
-        return;
-    }
-    else if ( x < 300  )
-    {
-        color[0] = posSlope*x-4.0*max+min;
-        color[1] = min;
-        color[2] = max;
-        return;
-    }
-    else
-    {
-        color[0] = max;
-        color[1] = min;
-        color[2] = negSlope*x+6*max;
-        return;
-    }
+	if( x < 60 )
+	{
+		color[0] = max;
+		color[1] = posSlope*x+min;
+		color[2] = min;
+		return;
+	}
+	else if ( x < 120 )
+	{
+		color[0] = negSlope*x+2.0*max+min;
+		color[1] = max;
+		color[2] = min;
+		return;
+	}
+	else if ( x < 180  )
+	{
+		color[0] = min;
+		color[1] = max;
+		color[2] = posSlope*x-2.0*max+min;
+		return;
+	}
+	else if ( x < 240  )
+	{
+		color[0] = min;
+		color[1] = negSlope*x+4.0*max+min;
+		color[2] = max;
+		return;
+	}
+	else if ( x < 300  )
+	{
+		color[0] = posSlope*x-4.0*max+min;
+		color[1] = min;
+		color[2] = max;
+		return;
+	}
+	else
+	{
+		color[0] = max;
+		color[1] = min;
+		color[2] = negSlope*x+6*max;
+		return;
+	}
 }
 
-/* Mandelbrot Set Image Demonstration  
+/* Mandelbrot Set Image Demonstration
  *
  * This is a simple single-process/single thread implementation
  * that computes a mandelbrot set and produces a corresponding
  * Bitmap image. The program demonstrates the use of a colour
  * gradient
- * 
+ *
  * This program uses the algorithm outlined in:
  *   "Building Parallel Programs: SMPs, Clusters And Java", Alan Kaminsky
- * 
- * This program requires libbmp for all bitmap operations. 
+ *
+ * This program requires libbmp for all bitmap operations.
  *
  */
 
@@ -278,7 +278,7 @@ int main(int argc, char **argv)
 	/* Generate the colour of the pixel from the **iter** value */
 	/* You can mess around with the colour settings to use different gradients */
 	/* Colour currently maps from royal blue to red */
-	 /* We're interested in iter */
+	/* We're interested in iter */
 	int i;
 	for (i = 0; i < width*height; i++){
 		x_col =  (COLOUR_MAX - (( ((float) iter / ((float) MAX_ITER) * GRADIENT_COLOUR_MAX))));
@@ -306,5 +306,5 @@ int main(int argc, char **argv)
 	cudaFree(d_xy);
 	cudaFree(d_Mandel);
 
-  	return 0;
+	return 0;
 }
